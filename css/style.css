@@ -15,20 +15,15 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-}
-
 body {
   margin: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 24px;
-  padding: 32px 16px;
+  padding: 24px 16px 48px;
   background: radial-gradient(ellipse at center, #3c2417 0%, var(--leather-dark) 75%);
   font-family: 'EB Garamond', serif;
   color: var(--ink);
@@ -180,8 +175,9 @@ body {
   font-size: 15.5px;
   line-height: 1.35;
   cursor: pointer;
-  padding: 3px 4px;
+  padding: 6px 4px;
   border-radius: 4px;
+  min-height: 44px;
   transition: opacity 0.25s ease, background 0.2s ease;
 }
 
@@ -193,6 +189,8 @@ body {
   margin-top: 3px;
   accent-color: var(--blood);
   flex-shrink: 0;
+  width: 18px;
+  height: 18px;
 }
 
 .evidence-item.checked .evidence-text {
@@ -256,5 +254,36 @@ body {
 
   .ghost-list {
     columns: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 16px 10px 32px;
+    gap: 16px;
+  }
+
+  .book {
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .page {
+    padding: 20px 16px 28px;
+    min-height: 0;
+  }
+
+  .page-content h2 {
+    font-size: 19px;
+  }
+
+  .ghost-item {
+    font-size: 17px;
+  }
+
+  .reset-ribbon {
+    width: 100%;
+    padding: 12px 22px;
+    font-size: 16px;
   }
 }
