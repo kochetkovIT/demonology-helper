@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demonology Field Journal — Evidence Tracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1 class="book-title">Demonology &mdash; Field Journal</h1>
+
+  <div class="book-wrapper">
+    <div class="book">
+      <section class="page page-left" aria-labelledby="ghostHeading">
+        <div class="page-content">
+          <h2 id="ghostHeading">Known Spirits</h2>
+          <p class="page-subtitle" id="ghostCount">25 of 25 suspects remain</p>
+          <hr class="divider" />
+          <ul class="ghost-list" id="ghostList"></ul>
+          <p class="ghost-empty" id="ghostEmpty" hidden>No spirit matches the evidence gathered. Reconsider your notes.</p>
+        </div>
+      </section>
+
+      <div class="spine"></div>
+
+      <section class="page page-right" aria-labelledby="evidenceHeading">
+        <div class="page-content">
+          <h2 id="evidenceHeading">Evidence Log</h2>
+          <p class="page-subtitle">Mark what has been witnessed</p>
+          <hr class="divider" />
+          <div class="evidence-groups" id="evidenceList"></div>
+        </div>
+      </section>
+    </div>
+
+    <button id="resetBtn" class="reset-ribbon" type="button">&#10227; Start New Round</button>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
