@@ -14,6 +14,10 @@ v1
 
 v2
 
+- multiple suspected ghosts can be selected, only the evidence related to that ghosts should be displayed
+
+v3
+
 - list allows multiple users to collaborate in a single session
 
 ## Ghosts
@@ -54,11 +58,12 @@ v2
     - moves faster the longer they see the target - dullahan
     - teleports - entity
     - stands still when not hunting - specter
-    - speed increases if average energy level below half - wretch
+    - speed increases if average energy level below 50% - wretch
     - speed decreases in the warm room - umbra
 - hunting frequency
     - hunts frequently - demon
     - hunts more frequently in the dark - nightmare
+    - ~~low hunt cooldown - revenant~~
 - appears headless in photos - dullahan
 - footprint in salt - not wraith
 - lifts the cross during hunt - demon
@@ -89,6 +94,7 @@ v2
 - hunt stops after a kill - revenant
 - can walk through fire - the wisp
 - invisible on LIDAR scans - vex
+- sound hallucinations - nightmare
 
 ## Architecture
 
@@ -97,3 +103,4 @@ v2
 ## Design
 
 - styled like an open old book with one page having demon list and another page having evidence
+- mobile friendly
