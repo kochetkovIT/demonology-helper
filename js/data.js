@@ -39,7 +39,7 @@ const EVIDENCE = [
   { id: 'm5', category: 'Movement', text: 'Moves faster the longer it sees the target', type: 'positive', ghosts: ['dullahan'] },
   { id: 'm6', category: 'Movement', text: 'Teleports', type: 'positive', ghosts: ['entity'] },
   { id: 'm7', category: 'Movement', text: 'Stands still when not hunting', type: 'positive', ghosts: ['specter'] },
-  { id: 'm8', category: 'Movement', text: 'Speed increases if average energy level is below half', type: 'positive', ghosts: ['wretch'] },
+  { id: 'm8', category: 'Movement', text: 'Speed increases if average energy level is below 50%', type: 'positive', ghosts: ['wretch'] },
   { id: 'm9', category: 'Movement', text: 'Speed decreases in the warm room', type: 'positive', ghosts: ['umbra'] },
 
   // Hunting Frequency
@@ -77,4 +77,5 @@ const EVIDENCE = [
   { id: 'o28', category: 'Other Signs', text: 'Hunt stops after a kill', type: 'positive', ghosts: ['revenant'] },
   { id: 'o29', category: 'Other Signs', text: 'Can walk through fire', type: 'positive', ghosts: ['the-wisp'] },
   { id: 'o30', category: 'Other Signs', text: 'Invisible on LIDAR scans', type: 'positive', ghosts: ['vex'] },
+  { id: 'o31', category: 'Other Signs', text: 'Sound hallucinations', type: 'positive', ghosts: ['nightmare'] },
 ];

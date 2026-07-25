@@ -14,7 +14,8 @@
       <section class="page page-left" aria-labelledby="ghostHeading">
         <div class="page-content">
           <h2 id="ghostHeading">Known Spirits</h2>
-          <p class="page-subtitle" id="ghostCount">25 of 25 suspects remain</p>
+          <p class="page-subtitle" id="ghostCount">25 of 25 possible</p>
+          <p class="page-hint">Tap a spirit to mark it as suspected</p>
           <hr class="divider" />
           <ul class="ghost-list" id="ghostList"></ul>
           <p class="ghost-empty" id="ghostEmpty" hidden>No spirit matches the evidence gathered. Reconsider your notes.</p>
@@ -27,6 +28,10 @@
         <div class="page-content">
           <h2 id="evidenceHeading">Evidence Log</h2>
           <p class="page-subtitle">Mark what has been witnessed</p>
+          <p class="page-hint evidence-filter-note" id="suspectNote" hidden>
+            Showing evidence for <span id="suspectNames"></span> &mdash;
+            <button type="button" id="clearSuspects" class="link-btn">show all</button>
+          </p>
           <hr class="divider" />
           <div class="evidence-groups" id="evidenceList"></div>
         </div>

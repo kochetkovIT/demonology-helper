@@ -106,8 +106,31 @@ body {
   text-align: center;
   font-style: italic;
   color: var(--ink-faint);
-  margin: 0 0 18px;
+  margin: 0 0 4px;
   font-size: 15px;
+}
+
+.page-hint {
+  text-align: center;
+  font-style: italic;
+  color: var(--ink-faint);
+  margin: 0 0 16px;
+  font-size: 13px;
+}
+
+.evidence-filter-note {
+  color: var(--blood);
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-style: italic;
+  text-decoration: underline;
+  color: var(--blood);
+  cursor: pointer;
 }
 
 .divider {
@@ -127,14 +150,33 @@ body {
 
 .ghost-item {
   font-size: 18px;
-  padding: 6px 0;
+  padding: 6px 8px;
+  margin: 0 -8px;
+  border-radius: 4px;
+  cursor: pointer;
   break-inside: avoid;
   border-bottom: 1px dotted rgba(58, 42, 26, 0.25);
-  transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease, background 0.2s ease;
+}
+
+.ghost-item:not(.eliminated):hover {
+  background: rgba(169, 129, 44, 0.12);
+}
+
+.ghost-item.suspected {
+  background: rgba(169, 129, 44, 0.22);
+  font-weight: 600;
+  color: var(--blood);
+}
+
+.ghost-item.suspected::before {
+  content: '\2726  ';
+  color: var(--gold);
 }
 
 .ghost-item.eliminated {
   opacity: 0.32;
+  cursor: default;
   text-decoration: line-through;
   text-decoration-color: var(--blood);
   text-decoration-thickness: 2px;
