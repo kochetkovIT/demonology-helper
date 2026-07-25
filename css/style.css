@@ -216,7 +216,6 @@ body {
   gap: 10px;
   font-size: 15.5px;
   line-height: 1.35;
-  cursor: pointer;
   padding: 6px 4px;
   border-radius: 4px;
   min-height: 44px;
@@ -227,17 +226,58 @@ body {
   background: rgba(169, 129, 44, 0.12);
 }
 
-.evidence-item input {
-  margin-top: 3px;
-  accent-color: var(--blood);
+.status-controls {
+  display: flex;
+  gap: 4px;
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
+  margin-top: 1px;
 }
 
-.evidence-item.checked .evidence-text {
-  color: var(--blood);
+.status-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink-faint);
+  background: rgba(255, 255, 255, 0.35);
+  color: var(--ink-faint);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.1s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.status-btn:hover {
+  transform: scale(1.08);
+}
+
+.status-btn:active {
+  transform: scale(0.95);
+}
+
+.status-btn-true[aria-pressed='true'] {
+  background: #2f6b3a;
+  border-color: #2f6b3a;
+  color: #f2ead2;
+}
+
+.status-btn-false[aria-pressed='true'] {
+  background: var(--blood);
+  border-color: var(--blood);
+  color: #f2ead2;
+}
+
+.evidence-item.confirmed-true .evidence-text {
+  color: #2f6b3a;
   font-weight: 600;
+}
+
+.evidence-item.confirmed-false .evidence-text {
+  color: var(--ink-faint);
+  text-decoration: line-through;
 }
 
 .evidence-item.impossible {

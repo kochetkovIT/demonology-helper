@@ -1,19 +1,20 @@
 (function () {
-  const STORAGE_KEY = 'demonology-tracker-v2';
+  const STORAGE_KEY = 'demonology-tracker-v3';
   const ALL_GHOST_IDS = GHOSTS.map((g) => g.id);
-  const CATEGORY_ORDER = ['Movement', 'Hunting Frequency', 'Other Signs'];
+  const CATEGORY_ORDER = ['Movement', 'Hunting', 'Not Hunting'];
 
-  let collected = new Set();
+  // statuses: evidenceId -> 'true' | 'false'. Absent = unconfirmed.
+  let statuses = new Map();
   let suspects = new Set();
   loadState();
 
   function loadState() {
     try {
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-      collected = new Set(Array.isArray(raw.collected) ? raw.collected : []);
+      statuses = new Map(Array.isArray(raw.statuses) ? raw.statuses : []);
       suspects = new Set(Array.isArray(raw.suspects) ? raw.suspects : []);
     } catch (e) {
-      collected = new Set();
+      statuses = new Map();
       suspects = new Set();
     }
   }
@@ -21,23 +22,27 @@
   function saveState() {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ collected: [...collected], suspects: [...suspects] })
+      JSON.stringify({ statuses: [...statuses], suspects: [...suspects] })
     );
   }
 
-  // Ghosts that would produce a given piece of evidence.
+  // Ghosts that would produce a given piece of evidence being observed TRUE.
   function producingGhosts(evidence) {
     if (evidence.type === 'positive') return evidence.ghosts;
     return ALL_GHOST_IDS.filter((id) => !evidence.ghosts.includes(id));
   }
 
-  // Candidate ghosts consistent with all currently collected evidence.
+  // Candidate ghosts consistent with every confirmed (true or false) piece of evidence.
   function getCandidates() {
     let candidates = new Set(ALL_GHOST_IDS);
     EVIDENCE.forEach((ev) => {
-      if (!collected.has(ev.id)) return;
+      const status = statuses.get(ev.id);
+      if (status !== 'true' && status !== 'false') return;
       const producing = new Set(producingGhosts(ev));
-      candidates = new Set([...candidates].filter((id) => producing.has(id)));
+      const matching =
+        status === 'true' ? producing : ALL_GHOST_IDS.filter((id) => !producing.has(id));
+      const matchingSet = new Set(matching);
+      candidates = new Set([...candidates].filter((id) => matchingSet.has(id)));
     });
     return candidates;
   }
@@ -87,6 +92,15 @@
     emptyEl.hidden = candidates.size !== 0;
   }
 
+  function setStatus(evidenceId, newStatus) {
+    const current = statuses.get(evidenceId);
+    if (current === newStatus) statuses.delete(evidenceId);
+    else statuses.set(evidenceId, newStatus);
+    saveState();
+    renderGhosts();
+    renderEvidence();
+  }
+
   function renderEvidence() {
     const candidates = getCandidates();
     const container = document.getElementById('evidenceList');
@@ -124,33 +138,45 @@
       itemsWrap.className = 'evidence-items';
 
       items.forEach((ev) => {
-        const isCollected = collected.has(ev.id);
+        const status = statuses.get(ev.id); // undefined | 'true' | 'false'
         const isPossible = producingGhosts(ev).some((id) => candidates.has(id));
 
-        const label = document.createElement('label');
-        label.className =
+        const row = document.createElement('div');
+        row.className =
           'evidence-item' +
-          (isCollected ? ' checked' : '') +
-          (!isPossible && !isCollected ? ' impossible' : '');
+          (status === 'true' ? ' confirmed-true' : '') +
+          (status === 'false' ? ' confirmed-false' : '') +
+          (!status && !isPossible ? ' impossible' : '');
 
-        const input = document.createElement('input');
-        input.type = 'checkbox';
-        input.checked = isCollected;
-        input.addEventListener('change', () => {
-          if (input.checked) collected.add(ev.id);
-          else collected.delete(ev.id);
-          saveState();
-          renderGhosts();
-          renderEvidence();
-        });
+        const controls = document.createElement('div');
+        controls.className = 'status-controls';
+
+        const trueBtn = document.createElement('button');
+        trueBtn.type = 'button';
+        trueBtn.className = 'status-btn status-btn-true';
+        trueBtn.textContent = '✓';
+        trueBtn.setAttribute('aria-label', 'Mark confirmed true');
+        trueBtn.setAttribute('aria-pressed', String(status === 'true'));
+        trueBtn.addEventListener('click', () => setStatus(ev.id, 'true'));
+
+        const falseBtn = document.createElement('button');
+        falseBtn.type = 'button';
+        falseBtn.className = 'status-btn status-btn-false';
+        falseBtn.textContent = '✗';
+        falseBtn.setAttribute('aria-label', 'Mark confirmed false');
+        falseBtn.setAttribute('aria-pressed', String(status === 'false'));
+        falseBtn.addEventListener('click', () => setStatus(ev.id, 'false'));
+
+        controls.appendChild(trueBtn);
+        controls.appendChild(falseBtn);
 
         const span = document.createElement('span');
         span.className = 'evidence-text';
         span.textContent = ev.text;
 
-        label.appendChild(input);
-        label.appendChild(span);
-        itemsWrap.appendChild(label);
+        row.appendChild(controls);
+        row.appendChild(span);
+        itemsWrap.appendChild(row);
       });
 
       group.appendChild(itemsWrap);
@@ -159,8 +185,8 @@
   }
 
   function resetRound() {
-    if (!confirm('Start a new round? This clears all collected evidence and suspects.')) return;
-    collected = new Set();
+    if (!confirm('Start a new round? This clears all evidence and suspects.')) return;
+    statuses = new Map();
     suspects = new Set();
     saveState();
     renderGhosts();
